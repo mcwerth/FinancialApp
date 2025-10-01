@@ -1,37 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FinancialApp</string>
-    <string name="budget_dashboard_title">Build your budget</string>
-    <string name="budget_dashboard_intro">Track paychecks, fixed expenses, and envelope balances in one place. Add your income and spending details to see your plan update instantly.</string>
-    <string name="total_income_label">Total income recorded</string>
-    <string name="fixed_expenses_summary_placeholder">Fixed expenses: %1$s</string>
-    <string name="available_summary_placeholder">Available to budget: %1$s</string>
-    <string name="income_section_title">Record income</string>
+
+    <string name="dashboard_intro">Track your cash flow, planned bills, and envelope balances in one place.</string>
+    <string name="dashboard_tab_title">Dashboard</string>
+    <string name="manage_tab_title">Manage</string>
+
+    <string name="current_balance_label">Current balance</string>
+    <string name="total_allocated_label">Allocated to categories</string>
+    <string name="total_remaining_label">Remaining across categories</string>
+    <string name="total_allocated_display">Allocated to categories: %1$s</string>
+    <string name="total_remaining_display">Remaining across categories: %1$s</string>
+
+    <string name="income_section_title">Add income</string>
     <string name="income_amount_hint">Income amount</string>
-    <string name="income_type_paycheck">Paycheck</string>
-    <string name="income_type_supplemental">Supplemental</string>
     <string name="add_income_button">Add income</string>
+
     <string name="fixed_expenses_section_title">Fixed expenses</string>
+    <string name="fixed_expenses_empty">No fixed expenses yet. Add them on the Manage tab.</string>
+    <string name="fixed_expense_form_title">Add a fixed expense</string>
     <string name="fixed_expense_name_hint">Expense name</string>
-    <string name="fixed_expense_amount_hint">Monthly amount</string>
-    <string name="add_fixed_expense_button">Save expense</string>
-    <string name="categories_section_title">Budget categories</string>
+    <string name="fixed_expense_amount_hint">Amount</string>
+    <string name="fixed_expense_due_date_hint">Next due date</string>
+    <string name="fixed_expense_list_header">All fixed expenses</string>
+    <string name="fixed_expense_summary">Monthly total</string>
+    <string name="fixed_expense_due_date_format">Next due: %1$s</string>
+
+    <string name="dynamic_expenses_section_title">Dynamic categories</string>
+    <string name="dynamic_empty">No dynamic categories yet. Add some on the Manage tab.</string>
+
+    <string name="categories_section_title">Add a dynamic category</string>
+    <string name="categories_list_header">Manage categories</string>
     <string name="category_name_hint">Category name</string>
-    <string name="category_percentage_hint">Percentage of leftovers</string>
+    <string name="category_percentage_hint">Percentage of discretionary income</string>
     <string name="add_category_button">Add category</string>
+    <string name="category_allocated_format">Allocated: %1$s</string>
+    <string name="category_remaining_format">Remaining: %1$s</string>
+
     <string name="spend_button_label">Log spend</string>
     <string name="edit_percentage_label">Edit %</string>
     <string name="remove_category_label">Remove</string>
+    <string name="remove_fixed_expense_label">Remove</string>
+    <string name="edit_due_date_label">Edit date</string>
+
     <string name="spend_dialog_title">Log category spend</string>
     <string name="spend_amount_hint">Amount spent</string>
     <string name="update_percentage_title">Update percentage</string>
     <string name="update_percentage_hint">New percentage</string>
     <string name="dialog_confirm">Save</string>
     <string name="dialog_cancel">Cancel</string>
+
+    <string name="pick_due_date_title">Select due date</string>
+
+
     <string name="toast_invalid_percentage">Percentages must total 100% or less.</string>
     <string name="toast_invalid_spend">That spend exceeds the category balance.</string>
     <string name="toast_income_recorded">Income recorded.</string>
     <string name="toast_fixed_expense_added">Expense saved.</string>
+
+    <string name="toast_fixed_expense_updated">Due date updated.</string>
+    <string name="toast_fixed_expense_removed">Expense removed.</string>
     <string name="toast_category_added">Category added.</string>
+    <string name="toast_category_updated">Category updated.</string>
+    <string name="toast_category_removed">Category removed.</string>
+
     <string name="toast_spend_recorded">Spend recorded.</string>
 </resources>
