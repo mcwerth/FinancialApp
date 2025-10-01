@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">FinancialApp</string>
+    <string name="dashboard_title">Your Money, Organized</string>
+    <string name="dashboard_intro">Track balances, upcoming bills, and savings goals from a single dashboard. Start exploring the essentials below while we build out the rest.</string>
+    <string name="balance_label">Total balance</string>
+    <string name="balance_amount">$12,480.22</string>
+    <string name="balance_caption">Last updated 2 hours ago</string>
+    <string name="cta_primary">Add account</string>
+    <string name="cta_secondary">View insights</string>
 </resources>
