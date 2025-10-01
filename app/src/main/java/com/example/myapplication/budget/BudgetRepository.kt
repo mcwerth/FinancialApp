@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import java.math.BigDecimal
 import java.math.RoundingMode
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.UUID
@@ -14,6 +15,7 @@ import org.json.JSONObject
 
 class BudgetRepository private constructor(context: Context) {
     private val preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
     private val stateFlow = MutableStateFlow(applyDueFixedExpenses(loadState()))
 
     val state: StateFlow<BudgetState> = stateFlow
@@ -62,6 +64,7 @@ class BudgetRepository private constructor(context: Context) {
         val current = ensureUpToDate()
         val updatedExpenses = current.fixedExpenses.filterNot { it.id == id }
         updateState(current.copy(fixedExpenses = updatedExpenses))
+
     }
 
     fun addCategory(name: String, percentage: Int): Boolean {
@@ -78,6 +81,7 @@ class BudgetRepository private constructor(context: Context) {
             allocatedAmount = BigDecimal.ZERO,
             remainingAmount = BigDecimal.ZERO
         )
+
         updateState(current.copy(categories = current.categories + newCategory))
         return true
     }
@@ -187,6 +191,7 @@ class BudgetRepository private constructor(context: Context) {
             state
         }
     }
+
 
     private fun updateState(newState: BudgetState) {
         stateFlow.value = newState

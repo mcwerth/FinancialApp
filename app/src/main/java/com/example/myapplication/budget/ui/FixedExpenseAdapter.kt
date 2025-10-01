@@ -2,6 +2,7 @@ package com.example.myapplication.budget.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,11 +21,13 @@ class FixedExpenseAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FixedExpenseViewHolder {
         val binding = ItemFixedExpenseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FixedExpenseViewHolder(binding, onEditDueDate, onRemove)
+
     }
 
     override fun onBindViewHolder(holder: FixedExpenseViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
 
     class FixedExpenseViewHolder(
         private val binding: ItemFixedExpenseBinding,
@@ -51,6 +54,7 @@ class FixedExpenseAdapter(
 
         companion object {
             private val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
+
         }
     }
 

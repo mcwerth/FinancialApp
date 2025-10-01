@@ -38,7 +38,6 @@ class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
 
     private val _events = MutableSharedFlow<BudgetEvent>()
     val events: SharedFlow<BudgetEvent> = _events
-
     fun refresh() {
         repository.refreshDueExpenses()
     }
@@ -78,14 +77,18 @@ class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
         val updated = repository.updateCategoryPercentage(id, newPercentage)
         if (!updated) {
             emitEvent(BudgetEvent.InvalidCategoryPercentage)
+
         } else {
             emitEvent(BudgetEvent.CategoryUpdated)
+
         }
     }
 
     fun removeCategory(id: String) {
         repository.removeCategory(id)
+
         emitEvent(BudgetEvent.CategoryRemoved)
+
     }
 
     fun recordCategorySpend(id: String, amount: BigDecimal) {
@@ -105,9 +108,11 @@ class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
 }
 
 data class BudgetUiState(
+
     val currentBalance: BigDecimal = BigDecimal.ZERO,
     val totalAllocated: BigDecimal = BigDecimal.ZERO,
     val totalRemaining: BigDecimal = BigDecimal.ZERO,
+
     val categories: List<BudgetCategory> = emptyList(),
     val fixedExpenses: List<FixedExpense> = emptyList()
 )
@@ -115,11 +120,13 @@ data class BudgetUiState(
 sealed interface BudgetEvent {
     data object IncomeRecorded : BudgetEvent
     data object FixedExpenseAdded : BudgetEvent
+
     data object FixedExpenseUpdated : BudgetEvent
     data object FixedExpenseRemoved : BudgetEvent
     data object CategoryAdded : BudgetEvent
     data object CategoryUpdated : BudgetEvent
     data object CategoryRemoved : BudgetEvent
+
     data object InvalidCategoryPercentage : BudgetEvent
     data object SpendRecorded : BudgetEvent
     data object InvalidSpend : BudgetEvent

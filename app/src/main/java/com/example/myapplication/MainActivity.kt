@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -72,4 +73,5 @@ class MainActivity : AppCompatActivity() {
             else -> ManageFragment()
         }
     }
+
 }
