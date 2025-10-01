@@ -24,6 +24,7 @@ import java.text.NumberFormat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -223,4 +224,5 @@ private fun String.toBigDecimalOrNull(): BigDecimal? = try {
     BigDecimal(this)
 } catch (e: NumberFormatException) {
     null
+
 }
