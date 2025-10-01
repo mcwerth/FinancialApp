@@ -3,15 +3,15 @@ package com.example.myapplication.budget
 import java.math.BigDecimal
 import java.util.UUID
 
-import java.time.LocalDate
+enum class IncomeType {
+    PAYCHECK,
+    SUPPLEMENTAL
+}
 
 data class FixedExpense(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
-
-    val amount: BigDecimal,
-    val nextDueDate: LocalDate
-
+    val amount: BigDecimal
 )
 
 data class BudgetCategory(
@@ -26,8 +26,18 @@ data class BudgetCategory(
 }
 
 data class BudgetState(
-    val totalBalance: BigDecimal = BigDecimal.ZERO,
+    val totalIncome: BigDecimal = BigDecimal.ZERO,
     val fixedExpenses: List<FixedExpense> = emptyList(),
-    val categories: List<BudgetCategory> = emptyList()
-)
+    val categories: List<BudgetCategory> = emptyList(),
+    val lastIncomeType: IncomeType? = null
+) {
+    val totalFixedExpenses: BigDecimal
+        get() = fixedExpenses.fold(BigDecimal.ZERO) { acc, expense -> acc.add(expense.amount) }
 
+    val availableForAllocation: BigDecimal
+        get() = (totalIncome.subtract(totalFixedExpenses)).coerceAtLeast(BigDecimal.ZERO)
+}
+
+fun BigDecimal.coerceAtLeast(minimumValue: BigDecimal): BigDecimal {
+    return if (this < minimumValue) minimumValue else this
+}

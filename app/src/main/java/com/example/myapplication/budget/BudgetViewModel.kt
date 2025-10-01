@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import java.math.BigDecimal
-import java.time.LocalDate
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,16 +15,10 @@ import kotlinx.coroutines.launch
 class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
     val uiState: StateFlow<BudgetUiState> = repository.state
         .map { state ->
-            val totalAllocated = state.categories.fold(BigDecimal.ZERO) { acc, category ->
-                acc.add(category.allocatedAmount)
-            }
-            val totalRemaining = state.categories.fold(BigDecimal.ZERO) { acc, category ->
-                acc.add(category.remainingAmount)
-            }
             BudgetUiState(
-                currentBalance = state.totalBalance,
-                totalAllocated = totalAllocated,
-                totalRemaining = totalRemaining,
+                totalIncome = state.totalIncome,
+                totalFixedExpenses = state.totalFixedExpenses,
+                availableForAllocation = state.availableForAllocation,
                 categories = state.categories,
                 fixedExpenses = state.fixedExpenses
             )
@@ -38,29 +31,20 @@ class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
 
     private val _events = MutableSharedFlow<BudgetEvent>()
     val events: SharedFlow<BudgetEvent> = _events
-    fun refresh() {
-        repository.refreshDueExpenses()
-    }
 
-    fun addIncome(amount: BigDecimal) {
+    fun addIncome(amount: BigDecimal, type: IncomeType) {
         if (amount <= BigDecimal.ZERO) return
-        repository.addIncome(amount)
+        repository.addIncome(amount, type)
         emitEvent(BudgetEvent.IncomeRecorded)
     }
 
-    fun addFixedExpense(name: String, amount: BigDecimal, dueDate: LocalDate) {
-        repository.addFixedExpense(name, amount, dueDate)
+    fun addFixedExpense(name: String, amount: BigDecimal) {
+        repository.addFixedExpense(name, amount)
         emitEvent(BudgetEvent.FixedExpenseAdded)
-    }
-
-    fun updateFixedExpenseDueDate(id: String, dueDate: LocalDate) {
-        repository.updateFixedExpenseDueDate(id, dueDate)
-        emitEvent(BudgetEvent.FixedExpenseUpdated)
     }
 
     fun removeFixedExpense(id: String) {
         repository.removeFixedExpense(id)
-        emitEvent(BudgetEvent.FixedExpenseRemoved)
     }
 
     fun addCategory(name: String, percentage: Int): Boolean {
@@ -77,18 +61,11 @@ class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
         val updated = repository.updateCategoryPercentage(id, newPercentage)
         if (!updated) {
             emitEvent(BudgetEvent.InvalidCategoryPercentage)
-
-        } else {
-            emitEvent(BudgetEvent.CategoryUpdated)
-
         }
     }
 
     fun removeCategory(id: String) {
         repository.removeCategory(id)
-
-        emitEvent(BudgetEvent.CategoryRemoved)
-
     }
 
     fun recordCategorySpend(id: String, amount: BigDecimal) {
@@ -108,11 +85,9 @@ class BudgetViewModel(private val repository: BudgetRepository) : ViewModel() {
 }
 
 data class BudgetUiState(
-
-    val currentBalance: BigDecimal = BigDecimal.ZERO,
-    val totalAllocated: BigDecimal = BigDecimal.ZERO,
-    val totalRemaining: BigDecimal = BigDecimal.ZERO,
-
+    val totalIncome: BigDecimal = BigDecimal.ZERO,
+    val totalFixedExpenses: BigDecimal = BigDecimal.ZERO,
+    val availableForAllocation: BigDecimal = BigDecimal.ZERO,
     val categories: List<BudgetCategory> = emptyList(),
     val fixedExpenses: List<FixedExpense> = emptyList()
 )
@@ -120,13 +95,7 @@ data class BudgetUiState(
 sealed interface BudgetEvent {
     data object IncomeRecorded : BudgetEvent
     data object FixedExpenseAdded : BudgetEvent
-
-    data object FixedExpenseUpdated : BudgetEvent
-    data object FixedExpenseRemoved : BudgetEvent
     data object CategoryAdded : BudgetEvent
-    data object CategoryUpdated : BudgetEvent
-    data object CategoryRemoved : BudgetEvent
-
     data object InvalidCategoryPercentage : BudgetEvent
     data object SpendRecorded : BudgetEvent
     data object InvalidSpend : BudgetEvent
